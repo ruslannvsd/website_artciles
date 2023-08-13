@@ -12,7 +12,7 @@ def br_removing(br_soup):
 
 def get_links(page):
     response = requests.get(MAIN_LINK + "/?page" + page)
-    titles = []
+    links = []
     if response.status_code == 200:
         soup = br_removing(BeautifulSoup(response.content, 'html.parser'))
         message_sections = soup.find_all('div', id=TITLE_ID)
@@ -21,8 +21,5 @@ def get_links(page):
                 a_tag = section.find('a')
                 if a_tag:
                     link = a_tag['href']
-                    title = a_tag.img['alt']
-                    img = a_tag.img['src']
-                    article = {"link": link, "title": title, "src": img}
-                    titles.append(article)
-    return titles
+                    links.append(link)
+    return links
