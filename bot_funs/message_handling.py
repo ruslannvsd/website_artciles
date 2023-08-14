@@ -3,7 +3,7 @@ import re
 import requests
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
-from const.const import MAIN_LINK, HTTP_TAG, HTTPS_TAG, WORD_TO_DELETE, TRIANGLE
+from const.const import MAIN_LINK, HTTP_TAG, HTTPS_TAG, WORD_TO_DELETE
 from web_scrape.one_article import get_article
 from web_scrape.scraping import get_links
 from web_scrape.utils import get_last_page, download_image
@@ -20,11 +20,11 @@ async def mess_hdl(update: Update, ctx):
     last_page = get_last_page()
     if text.isdigit():
         if 0 < int(text) <= int(last_page):
-            text = f"Go to\nPage {text}"
             links = get_links(text)
             for link in links:
                 link = MAIN_LINK + link
                 await update.message.reply_text(link)
+            text = f"Go to\nPage {text}"
     else:
         page = requests.get(text)
         if page.status_code == 200:
